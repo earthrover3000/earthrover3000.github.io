@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Opening…</title>
+<style>
+  :root { font-family: system-ui, sans-serif; line-height: 1.4; }
+  body { max-width: 34rem; margin: 0 auto; padding: 1.5rem 1rem 3rem;
+         color: GrayText; word-break: break-all; }
+</style>
+<script>
+  (function () {
+    var to = new URLSearchParams(location.search).get("to") || "";
+    var u = null;
+    try { u = new URL(to); } catch (e) {}
+    var h = u ? u.hostname : "";
+    var home = /\.local$/i.test(h) || /^10\./.test(h)
+      || /^192\.168\./.test(h) || /^172\.(1[6-9]|2[0-9]|3[01])\./.test(h);
+    if (u && /^https?:$/.test(u.protocol) && home) {
+      location.replace(u.href);
+      return;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("msg").textContent = to
+        ? "Not a home-network address, so not followed: " + to
+        : "Nothing to open.";
+    });
+  })();
+</script>
+</head>
+<body><p id="msg">Opening…</p></body>
+</html>
